@@ -1,0 +1,23 @@
+## .NET Build Artifacts
+bin/
+obj/
+
+## Database files (local only - Railway'de volume kullanacağız)
+*.db
+*.db-shm
+*.db-wal
+
+## CSV dosyaları (local)
+kur_gecmis.csv
+
+## User Secrets / Environment
+appsettings.Development.json
+
+## OS
+.DS_Store
+Thumbs.db
+
+## IDE
+.vs/
+.vscode/
+*.user
