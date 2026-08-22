@@ -186,8 +186,39 @@ header {
 /* Cards Grid */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.25rem;
+}
+
+/* Fon grid — biraz daha geniş kartlar */
+.fon-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* Section Title */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 0.25rem 0;
+}
+
+.section-icon {
+    font-size: 1.3rem;
+}
+
+.section-badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.75rem;
+    border-radius: 9999px;
 }
 
 .rate-card {
@@ -547,3 +578,123 @@ select {
     background: linear-gradient(135deg, #d97706, #b45309);
 }
 
+/* ──────────────────────────────────────────
+   📊 FON KARTLARI
+────────────────────────────────────────── */
+
+.fon-card {
+    border-color: rgba(16, 185, 129, 0.25);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.fon-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-emerald), var(--accent-amber));
+    opacity: 0.8;
+}
+
+.fon-card:hover {
+    border-color: var(--accent-emerald);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.12);
+}
+
+.fon-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.fon-kod {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--accent-emerald);
+    letter-spacing: 0.05em;
+}
+
+.fon-kategori-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    white-space: nowrap;
+}
+
+.fon-kategori-badge.hisse {
+    background: rgba(139, 92, 246, 0.12);
+    color: #c084fc;
+}
+
+.fon-ad {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    min-height: 2.2em;
+}
+
+.fon-fiyat {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+}
+
+.fon-fiyat span {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.fon-degisim {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+}
+
+.fon-degisim.pozitif {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+}
+
+.fon-degisim.negatif {
+    background: rgba(244, 63, 94, 0.15);
+    color: #f87171;
+}
+
+.fon-degisim.notr {
+    background: rgba(100, 116, 139, 0.15);
+    color: var(--text-muted);
+}
+
+.fon-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Fon hata durumu */
+.fon-error {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    grid-column: 1 / -1;
+}

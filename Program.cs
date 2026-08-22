@@ -15,6 +15,9 @@ builder.Services.AddDbContext<KurDbContext>(options =>
 // 3. KurServis & HttpClient Tanımlaması
 builder.Services.AddHttpClient<IKurService, KurService>();
 
+// 3b. FonServis & HttpClient Tanımlaması (TEFAS)
+builder.Services.AddHttpClient<IFonService, FonService>();
+
 // 4. Bildirim & Alarm Servisleri
 builder.Services.AddSingleton<IEmailBildirimService, EmailBildirimService>();
 builder.Services.AddSingleton<AlarmKontrolService>();

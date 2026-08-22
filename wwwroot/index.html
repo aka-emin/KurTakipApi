@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Döviz & Kripto Takip Paneli - Otomatik Kayıt</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
             <div class="brand">
                 <div class="brand-icon">📈</div>
                 <div>
-                    <h1>Döviz & Kripto Takip Sistemi</h1>
+                    <h1>Döviz, Kripto & Fon Takip Sistemi</h1>
                     <p>Otomatik 10 Dakikalık Veri Toplama, DB Kaydı & Fiyat Grafiği</p>
                 </div>
             </div>
@@ -30,10 +30,24 @@
             </div>
         </header>
 
-        <!-- Anlık Kartlar Grid -->
+        <!-- Anlık Döviz & Kripto Kartlar Grid -->
+        <div class="section-title">
+            <span class="section-icon">💱</span>
+            <span>Döviz & Kripto Kurları</span>
+        </div>
         <div class="cards-grid" id="ratesGrid">
             <!-- JavaScript ile doldurulacak -->
             <div class="rate-card"><p>Veriler yükleniyor...</p></div>
+        </div>
+
+        <!-- 📊 Yatırım Fonları Bölümü -->
+        <div class="section-title">
+            <span class="section-icon">📊</span>
+            <span>TEFAS Yatırım Fonları</span>
+            <span class="section-badge" id="fonRefreshBadge">Yükleniyor...</span>
+        </div>
+        <div class="cards-grid fon-grid" id="fonGrid">
+            <div class="rate-card fon-card"><p>Fon verileri yükleniyor...</p></div>
         </div>
 
         <!-- Dashboard Ana Izgara -->
@@ -174,6 +188,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=2"></script>
+    <script src="app.js?v=3"></script>
 </body>
 </html>

@@ -5,10 +5,14 @@ let nextRunTimeDate = null;
 document.addEventListener('DOMContentLoaded', async () => {
     await verileriYukle();
     await alarmListesiniYukle();
+    await fonlariYukle(); // TEFAS fon verilerini ilk yüklemede çek
     
     // Her 15 saniyede bir verileri ve durumu otomatik tazele
     setInterval(verileriYukle, 15000);
     setInterval(alarmListesiniYukle, 30000);
+
+    // Fon verileri her 5 dakikada bir güncellenir (TEFAS limit)
+    setInterval(fonlariYukle, 5 * 60 * 1000);
 
     // Sayaç güncellemesi (Her 1 saniyede bir)
     setInterval(updateCountdown, 1000);
@@ -342,3 +346,87 @@ async function alarmToggle(id) {
     }
 }
 
+// ──────────────────────────────────────────
+// 📊 TEFAS YATıRıM FONU FONKSİYONLARI
+// ──────────────────────────────────────────
+
+async function fonlariYukle() {
+    const grid = document.getElementById('fonGrid');
+    const badge = document.getElementById('fonRefreshBadge');
+
+    try {
+        const res = await fetch('/api/fon/anlik');
+        if (!res.ok) {
+            grid.innerHTML = `<div class="fon-error">⚠️ Fon verileri alınamadı (HTTP ${res.status}). TEFAS servisine erişilemiyor olabilir.</div>`;
+            if (badge) badge.textContent = 'Hata';
+            return;
+        }
+
+        const fonlar = await res.json();
+
+        if (!fonlar || fonlar.length === 0) {
+            grid.innerHTML = `<div class="fon-error">⚠️ Şu anda fon verisi gelmiyor. TEFAS hafta içi 09:30 - 18:30 arasında veri sunar.</div>`;
+            if (badge) badge.textContent = 'Veri Yok';
+            return;
+        }
+
+        grid.innerHTML = fonlar.map(fon => {
+            const degisim = fon.gunlukDegisim;
+            let degisimClass = 'notr';
+            let degisimIcon = '─';
+            let degisimText = 'Değişim Yok';
+
+            if (degisim !== null && degisim !== undefined) {
+                if (degisim > 0) {
+                    degisimClass = 'pozitif';
+                    degisimIcon = '▲';
+                    degisimText = `+${degisim.toFixed(2)}%`;
+                } else if (degisim < 0) {
+                    degisimClass = 'negatif';
+                    degisimIcon = '▼';
+                    degisimText = `${degisim.toFixed(2)}%`;
+                } else {
+                    degisimText = '0.00%';
+                }
+            }
+
+            const isHisse = fon.kategori === 'Hisse Senedi';
+            const kategoriBadgeClass = isHisse ? 'hisse' : '';
+
+            const fiyatStr = fon.birimPayDegeri.toLocaleString('tr-TR', {
+                minimumFractionDigits: 4,
+                maximumFractionDigits: 6
+            });
+
+            const tarihStr = new Date(fon.tarih).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+            return `
+                <div class="rate-card fon-card">
+                    <div class="fon-header">
+                        <span class="fon-kod">${fon.fonKodu}</span>
+                        <span class="fon-kategori-badge ${kategoriBadgeClass}">${fon.kategori}</span>
+                    </div>
+                    <div class="fon-ad">${fon.fonAdi}</div>
+                    <div class="fon-fiyat">₺ ${fiyatStr}</div>
+                    <div>
+                        <span class="fon-degisim ${degisimClass}">${degisimIcon} ${degisimText}</span>
+                    </div>
+                    <div class="fon-meta">
+                        <span>${fon.kaynak}</span>
+                        <span>${tarihStr}</span>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        if (badge) {
+            const simdi = new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+            badge.textContent = `Son güncelleme: ${simdi}`;
+        }
+
+    } catch (err) {
+        console.error('Fon verileri yüklenirken hata:', err);
+        grid.innerHTML = `<div class="fon-error">⚠️ Sunucuya bağlanılamadı. Lütfen uygulamanın çalıştığından emin olun.</div>`;
+        if (badge) badge.textContent = 'Bağlantı Hatası';
+    }
+}
